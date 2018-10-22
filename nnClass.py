@@ -53,9 +53,8 @@ class NN:
       self.cdw[i] += self.dw[i]
       self.cdb[i] += self.db[i]
 
-  def backpropagate_input_layer_derivative(self, inputVector, label):
-    self.do[-1] = -2*self.outputVals[-1]
-    self.do[-1][label] = -2*(self.outputVals[-1][label]-1)
+  def backpropagate_part(self, inputVector, output_dy):
+    self.do[-1] = output_dy
     for i in range(len(self.weights)-1,-1,-1):
       if i>0:
         self.dw[i] = np.outer(self.outputVals[i-1], self.do[i]*self.outputVals[i]*(1-self.outputVals[i]))
@@ -65,10 +64,10 @@ class NN:
       if i>0:
         self.do[i-1] = np.matmul(self.weights[i], self.do[i]*self.outputVals[i]*(1-self.outputVals[i]))
       else:
-        inp_dv = np.matmul(self.weights[0], self.do[i]*self.outputVals[i]*(1-self.outputVals[i]))
+        self.dinp = np.matmul(self.weights[0], self.do[i]*self.outputVals[i]*(1-self.outputVals[i]))
       self.cdw[i] += self.dw[i]
       self.cdb[i] += self.db[i]
-    return inp_dv
+    return self.dinp
 
   def updateWeightsBiases(self, alpha=0.02):
     for i in range(len(self.weights)):
