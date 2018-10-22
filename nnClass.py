@@ -30,11 +30,11 @@ class NN:
     return sigma
 
   def initialize_derivatives(self):
-    self.dw = [np.zeros(npvector.shape) for npvector in self.weights]
-    self.db = [np.zeros(npvector.shape) for npvector in self.biases]
-    self.do = [np.zeros(npvector.shape) for npvector in self.outputVals]
-    self.cdw = [np.zeros(npvector.shape) for npvector in self.weights]
-    self.cdb = [np.zeros(npvector.shape) for npvector in self.biases]
+    self.dw = [np.zeros(npvector.shape) for npvector in self.weights]     # derivative of weights
+    self.db = [np.zeros(npvector.shape) for npvector in self.biases]      # derivative of biases
+    self.do = [np.zeros(npvector.shape) for npvector in self.outputVals]  # derivative of outputs
+    self.cdw = [np.zeros(npvector.shape) for npvector in self.weights]    # cummilative derivative of weights
+    self.cdb = [np.zeros(npvector.shape) for npvector in self.biases]     # cummilative derivative of biases
 
   def backpropagate(self, inputVector, label):
     # update derivative vector of output layer
